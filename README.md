@@ -1,9 +1,9 @@
 # ConcurrentMemoryPool
 **本项目为一个C++实现高并发内存池（Linux版）**
 
-在Terminal中输入：`g++ -g -o2 -I include/ src/* Benchmark.cpp -o main -lpthread`，即可编译。
+在Terminal中输入：`g++ -g -o2 -I include/ src/* Benchmark.cpp -o main -pthread`，即可编译。
 
-如果不需要调试信息，可以直接：`g++ -I include/ src/* Benchmark.cpp -o main -lpthread`，生成可执行文件`main`后 `./main` 运行，看到测试结果。
+如果不需要调试信息，可以直接：`g++ -I include/ src/* Benchmark.cpp -o main -pthread`，生成可执行文件`main`后 `./main` 运行，看到测试结果。
 
 ### 内存池结构
 
