@@ -42,7 +42,7 @@
 2. 本次开发使用的linux系统页面大小为4KB，不是8KB，因此static const size_t PAGE_SHIFT = 12，2<<12 = 4KB
 
 3. Linux下地址空间为64位
-4. Linux64为地址空间下，下基数树必须使用三层，参考代码(include/PageMap.h)
+4. Linux64为地址空间下，下基数树必须使用三层，参考include/PageMap.h
 
 ### 参考文献
 
