@@ -1,2 +1,39 @@
 # ConcurrentMemoryPool
-TODO
+c++实现高并发内存池（Linux版）
+
+
+
+### 内存池结构
+
+![structure](C:\Users\MI\Desktop\ConcurrentMemoryPool\images\structure.png)
+
+主要包含三层缓存结构:
+- ThreadCache
+- CentralCache
+- PageCache
+
+### 优化
+
+![radixtree](C:\Users\MI\Desktop\ConcurrentMemoryPool\images\radixtree.png)
+
+使用三层基数树优化锁相关的性能瓶颈
+
+### 结果图
+
+优化前：
+
+![benchmark1](C:\Users\MI\Desktop\ConcurrentMemoryPool\images\benchmark1.png)
+
+![flamegraph1](C:\Users\MI\Desktop\ConcurrentMemoryPool\images\flamegraph1.png)
+
+优化后：
+
+![benchmark2](C:\Users\MI\Desktop\ConcurrentMemoryPool\images\benchmark2.png)
+
+![flamegraph2](C:\Users\MI\Desktop\ConcurrentMemoryPool\images\flamegraph2.png)
+
+### Linux版本与Windows版本的区别
+1. Linux申请和释放空间使用函数不同，参考include/Common.h
+2. 本次开发使用的linux系统页面大小为4KB，不是8KB，因此static const size_t PAGE_SHIFT = 12，2<<12 = 4KB
+3. Linux下地址空间为64位
+4. Linux64为地址空间下，下基数树必须使用三层，参考代码(include/PageMap.h)
