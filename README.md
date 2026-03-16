@@ -1,13 +1,16 @@
 # ConcurrentMemoryPool
-c++实现高并发内存池（Linux版）
+**本项目为一个C++实现高并发内存池（Linux版）**
 
+在Terminal中输入：`g++ -g -o2 -I include/ src/* Benchmark.cpp -o main -lpthread`，即可编译。
 
+如果不需要调试信息，可以直接：`g++ -I include/ src/* Benchmark.cpp -o main -lpthread`，生成可执行文件`main`后 `./main` 运行，看到测试结果。
 
 ### 内存池结构
 
 ![structure](C:\Users\MI\Desktop\ConcurrentMemoryPool\images\structure.png)
 
-主要包含三层缓存结构:
+包含三层缓存结构：
+
 - ThreadCache
 - CentralCache
 - PageCache
@@ -32,8 +35,11 @@ c++实现高并发内存池（Linux版）
 
 ![flamegraph2](C:\Users\MI\Desktop\ConcurrentMemoryPool\images\flamegraph2.png)
 
+可以看到少了很多unique_lock的开销。
+
 ### Linux版本与Windows版本的区别
 1. Linux申请和释放空间使用函数不同，参考include/Common.h
 2. 本次开发使用的linux系统页面大小为4KB，不是8KB，因此static const size_t PAGE_SHIFT = 12，2<<12 = 4KB
+
 3. Linux下地址空间为64位
 4. Linux64为地址空间下，下基数树必须使用三层，参考代码(include/PageMap.h)
