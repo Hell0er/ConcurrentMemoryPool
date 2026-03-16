@@ -7,7 +7,7 @@
 
 ### 内存池结构
 
-![structure](C:\Users\MI\Desktop\ConcurrentMemoryPool\images\structure.png)
+![structure](images/structure.png)
 
 包含三层缓存结构：
 
@@ -17,7 +17,7 @@
 
 ### 优化
 
-![radixtree](C:\Users\MI\Desktop\ConcurrentMemoryPool\images\radixtree.png)
+![radixtree](images/radixtree.png)
 
 使用三层基数树优化锁相关的性能瓶颈
 
@@ -25,15 +25,15 @@
 
 优化前：
 
-![benchmark1](C:\Users\MI\Desktop\ConcurrentMemoryPool\images\benchmark1.png)
+![benchmark1](images/benchmark1.png)
 
-![flamegraph1](C:\Users\MI\Desktop\ConcurrentMemoryPool\images\flamegraph1.png)
+![flamegraph1](images/flamegraph1.png)
 
 优化后：
 
-![benchmark2](C:\Users\MI\Desktop\ConcurrentMemoryPool\images\benchmark2.png)
+![benchmark2](images/benchmark2.png)
 
-![flamegraph2](C:\Users\MI\Desktop\ConcurrentMemoryPool\images\flamegraph2.png)
+![flamegraph2](images/flamegraph2.png)
 
 可以看到少了很多unique_lock的开销。
 
