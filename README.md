@@ -43,3 +43,8 @@
 
 3. Linux下地址空间为64位
 4. Linux64为地址空间下，下基数树必须使用三层，参考代码(include/PageMap.h)
+
+### 参考文献
+
+- [【项目】九万字手把手教你写高并发内存池（化简版tcmalloc）_【项目】九万字手把手教你写高并发内存池(化简版tcmalloc)-csdn博客-CSDN博客](https://blog.csdn.net/m0_62782700/article/details/135443352)
+- [内存管理优化：从定长内存池到TCMalloc实践-CSDN博客](https://blog.csdn.net/RNGWGzZs/article/details/128329729)
