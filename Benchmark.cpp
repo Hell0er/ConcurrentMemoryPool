@@ -54,7 +54,7 @@ void BenchmarkMalloc(size_t ntimes, size_t nworks, size_t rounds)
                              .count();
 
     // 打印总墙上时间
-    printf("BnechmarkAlloc: %lu threads, %lu rounds, %lu allocs/round\n",
+    printf("BenchmarkAlloc: %lu threads, %lu rounds, %lu allocs/round\n",
            nworks, rounds, ntimes);
     printf("Total wall-clock time: %lu ms\n", total_wall_ms);
 }
