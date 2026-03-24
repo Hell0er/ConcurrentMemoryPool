@@ -4,8 +4,6 @@
 一种是申请ntimes*rounds次同一个块大小的空间，
 一种是申请ntimes*rounds次不同的块大小的空间*/
 
-/*下面的代码稍微过一眼就好*/
-
 #include <atomic>
 #include <vector>
 
@@ -17,8 +15,6 @@
 void BenchmarkMalloc(size_t ntimes, size_t nworks, size_t rounds)
 {
     std::vector<std::thread> vthread(nworks);
-    std::atomic<size_t> malloc_costtime = 0;
-    std::atomic<size_t> free_costtime = 0;
 
     for (size_t k = 0; k < nworks; ++k)
     {
@@ -30,7 +26,6 @@ void BenchmarkMalloc(size_t ntimes, size_t nworks, size_t rounds)
 
                 for (size_t j = 0; j < rounds; ++j)
                 {
-                    size_t begin1 = clock();
                     for (size_t i = 0; i < ntimes; i++)
                     {
                         // 每一次申请同一个桶中的块
@@ -38,36 +33,30 @@ void BenchmarkMalloc(size_t ntimes, size_t nworks, size_t rounds)
                         // 每一次申请不同桶中的块
                         v.push_back(malloc((16 + i) % 8192 + 1));
                     }
-                    size_t end1 = clock();
 
-                    size_t begin2 = clock();
                     for (size_t i = 0; i < ntimes; i++)
                     {
                         free(v[i]);
                     }
-                    size_t end2 = clock();
                     v.clear();
-
-                    malloc_costtime += (end1 - begin1);
-                    free_costtime += (end2 - begin2);
                 }
             });
     }
 
+    auto overall_start = std::chrono::high_resolution_clock::now();
     for (auto& t : vthread)
     {
         t.join();
     }
+    auto overall_end = std::chrono::high_resolution_clock::now();
+    auto total_wall_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                             overall_end - overall_start)
+                             .count();
 
-    printf("%lu个线程并发执行%lu轮次，每轮次malloc %lu次: 花费：%lu ms\n",
-           nworks, rounds, ntimes, malloc_costtime.load());
-
-    printf("%lu个线程并发执行%lu轮次，每轮次free   %lu次: 花费：%lu ms\n",
-           nworks, rounds, ntimes, free_costtime.load());
-
-    printf("%lu个线程并发malloc&free %lu次，总计花费：%lu ms\n", nworks,
-           nworks * rounds * ntimes,
-           malloc_costtime.load() + free_costtime.load());
+    // 打印总墙上时间
+    printf("BnechmarkAlloc: %lu threads, %lu rounds, %lu allocs/round\n",
+           nworks, rounds, ntimes);
+    printf("Total wall-clock time: %lu ms\n", total_wall_ms);
 }
 
 // ntimes 单轮次申请释放次数
@@ -76,8 +65,6 @@ void BenchmarkMalloc(size_t ntimes, size_t nworks, size_t rounds)
 void BenchmarkConcurrentMalloc(size_t ntimes, size_t nworks, size_t rounds)
 {
     std::vector<std::thread> vthread(nworks);
-    std::atomic<size_t> malloc_costtime = 0;
-    std::atomic<size_t> free_costtime = 0;
 
     for (size_t k = 0; k < nworks; ++k)
     {
@@ -89,46 +76,35 @@ void BenchmarkConcurrentMalloc(size_t ntimes, size_t nworks, size_t rounds)
 
                 for (size_t j = 0; j < rounds; ++j)
                 {
-                    size_t begin1 = clock();
                     for (size_t i = 0; i < ntimes; i++)
                     {
                         // v.push_back(ConcurrentAlloc(16));
                         v.push_back(ConcurrentAlloc((16 + i) % 8192 + 1));
                     }
-                    size_t end1 = clock();
 
-                    size_t begin2 = clock();
                     for (size_t i = 0; i < ntimes; i++)
                     {
                         ConcurrentFree(v[i]);
                     }
-                    size_t end2 = clock();
                     v.clear();
-
-                    malloc_costtime += (end1 - begin1);
-                    free_costtime += (end2 - begin2);
                 }
             });
     }
 
+    auto overall_start = std::chrono::high_resolution_clock::now();
     for (auto& t : vthread)
     {
         t.join();
     }
+    auto overall_end = std::chrono::high_resolution_clock::now();
+    auto total_wall_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                             overall_end - overall_start)
+                             .count();
 
-    printf(
-        "%lu个线程并发执行%lu轮次，每轮次concurrent   alloc %lu次: 花费：%lu "
-        "ms\n",
-        nworks, rounds, ntimes, malloc_costtime.load());
-
-    printf(
-        "%lu个线程并发执行%lu轮次，每轮次concurrent dealloc %lu次: 花费：%lu "
-        "ms\n",
-        nworks, rounds, ntimes, free_costtime.load());
-
-    printf("%lu个线程并发concurrent alloc&dealloc %lu次，总计花费：%lu ms\n",
-           nworks, nworks * rounds * ntimes,
-           malloc_costtime.load() + free_costtime.load());
+    // 打印总墙上时间
+    printf("ConcurrentAlloc: %lu threads, %lu rounds, %lu allocs/round\n",
+           nworks, rounds, ntimes);
+    printf("Total wall-clock time: %lu ms\n", total_wall_ms);
 }
 
 int main()

@@ -23,19 +23,25 @@
 
 ### 结果图
 
-优化前：
+**优化前（见Benchmark.cpp）：**
 
 ![benchmark1](images/benchmark1.png)
 
 ![flamegraph1](images/flamegraph1.png)
 
-优化后：
+**优化后（见Benchmark.cpp）：**
 
 ![benchmark2](images/benchmark2.png)
+
+![benchmark3](images/benchmark3.png)
 
 ![flamegraph2](images/flamegraph2.png)
 
 可以看到少了很多unique_lock的开销。
+
+**高并发多线程测试（每个线程做5万次 alloc/free，见AdvancedBenchmark.cpp）：**
+
+![benchmark4](images/benchmark4.png)
 
 ### Linux版本与Windows版本的区别
 1. Linux申请和释放空间使用函数不同，参考include/Common.h
