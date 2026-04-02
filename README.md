@@ -52,5 +52,7 @@
 
 ### 参考文献
 
+- [google/tcmalloc](https://github.com/google/tcmalloc)
+
 - [【项目】九万字手把手教你写高并发内存池（化简版tcmalloc）_【项目】九万字手把手教你写高并发内存池(化简版tcmalloc)-csdn博客-CSDN博客](https://blog.csdn.net/m0_62782700/article/details/135443352)
 - [内存管理优化：从定长内存池到TCMalloc实践-CSDN博客](https://blog.csdn.net/RNGWGzZs/article/details/128329729)
