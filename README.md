@@ -17,7 +17,7 @@
 
 ### 优化
 
-![radixtree](images/radixtree.png)
+![radixtree](/images/radixtree.jpeg)
 
 使用三层基数树优化锁相关的性能瓶颈
 
